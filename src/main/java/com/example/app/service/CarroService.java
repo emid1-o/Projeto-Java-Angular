@@ -13,37 +13,35 @@ public class CarroService {
     @Autowired
     private CarroRepository carroRepository;
 
+    public Carro findById(Long id){
+
+        return carroRepository.findById(id).orElse(null);
+
+    }
+
 
     public List<Carro> verCarros(){
 
         return carroRepository.findAll();
     }
 
-    public Carro save(Carro carro){
+    public String save(Carro carro){
 
         carroRepository.save(carro);
-        return carro;
+        return "Carro de id " + carro.getId() + " salvo com sucesso";
     }
 
     public String deleteById(Long id){
 
-        if (carroRepository.existsById(id)){
-            carroRepository.deleteById(id);
-            return "Carro de id " + id + " deletado com sucesso.";
-        }
-        return "Não há um carro com id " + id + " registrado no banco";
+        carroRepository.deleteById(id);
+        return "Carro de id " + id + " deletado com sucesso.";
     }
 
-    public String editById(Long id, Carro carro){
+    public String update(Long id, Carro carro){
 
-        Carro carroExistente = carroRepository.findById(id).orElse(null);
-
-        if (carroExistente != null){
-            carroExistente.setNome(carro.getNome());
-            carroExistente.setAno(carro.getAno());
-            carroRepository.save(carroExistente);
-            return "Carro de id " + id + " alterado com sucesso";
-        } return "Carro de id " + id + " não encontrado";
+        carro.setId(id);
+        this.carroRepository.save(carro);
+        return "Carro foi atualizado com sucesso";
     }
 
 

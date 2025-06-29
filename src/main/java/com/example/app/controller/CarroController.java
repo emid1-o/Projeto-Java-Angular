@@ -16,8 +16,17 @@ public class CarroController {
     @Autowired
     private CarroService carroService;
 
-    @GetMapping("/todos")
-    public ResponseEntity<List<Carro>> verCarros(){
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<Carro> getById(@PathVariable Long id){
+        try {
+            return new ResponseEntity<>(carroService.findById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Carro>> findAll(){
 
         try {
 
@@ -34,29 +43,29 @@ public class CarroController {
 
         try {
 
-        Carro carroSalvo = carroService.save(carro);
-        return new ResponseEntity<>("Carro " + carroSalvo.getNome() + " salvo com sucesso", HttpStatus.OK); }
+        String mensagem = carroService.save(carro);
+        return new ResponseEntity<>(mensagem, HttpStatus.CREATED); }
         catch (Exception e){
-            return new ResponseEntity<>("Algo deu errado", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @DeleteMapping("/deletar/{id}")
+    @DeleteMapping("/deleteById/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id){
         try {
             return new ResponseEntity<>(carroService.deleteById(id), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Algo deu errado", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/editar/{id}")
-    public ResponseEntity<String> editById(@PathVariable Long id, @RequestBody Carro carro){
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Carro carro){
 
         try {
-            return new ResponseEntity<>(carroService.editById(id, carro), HttpStatus.OK);
+            return new ResponseEntity<>(carroService.update(id, carro), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(carroService.editById(id, carro), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
