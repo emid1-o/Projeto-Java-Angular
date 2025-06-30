@@ -11,20 +11,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Carro {
+public class Marca {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private int ano;
+    private String cnpj;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Marca marca;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "carro_proprietario")
-    private List<Proprietario> proprietarios;
-
-
+    @OneToMany(mappedBy = "marca")
+    private List<Carro> carros;
 }
