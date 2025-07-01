@@ -1,5 +1,6 @@
 package com.example.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class Carro {
     private int ano;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("carros")
     private Marca marca;
 
     @ManyToMany(cascade = CascadeType.ALL)
